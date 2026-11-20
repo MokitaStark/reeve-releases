@@ -1,19 +1,18 @@
-<img src="assets/logo/reeve-logo.png" alt="Reeve" width="440" />
+<img src="assets/logo/reeve-logo.png" alt="Reeve" width="460" />
 
 # Reeve · 原生多智能体工程与个人工作台
 
-Reeve 是一款开箱即用的本地优先多智能体桌面工作台。官方安装包已**内置独立后台服务与 SQLite 数据引擎**，无需在本地安装 Go、Node、Bun 或任何开发构建环境，**安装后直接打开即可使用**。
+**Reeve** 是一款本地优先（Local-First）、开箱即用的原生多智能体桌面工作台。它将**多智能体自动编排（Orchestrator）**、**跨智能体实时通信黑板**、**全局个人空间**、**全栈工程工作区**与**2D 可视化自动化流程画布**融为一体——让你既能像和智囊团聊天一样推演想法，又能指挥一支分工明确的 AI 工程团队操作本地文件、Git 分支、终端、浏览器与桌面应用，完成从灵感到代码交付与自动化验收的完整闭环。
 
-在「全局个人空间」与「工程项目工作区」中，您可以通过内置**多智能体编排器（Orchestrator）**、主流大模型服务与本机编码 CLI 协同工作，调用文件、Git/Worktree、交互式终端、Chrome CDP 浏览器与宿主机桌面控制（Computer Use）完成从构思讨论、代码编写到自动化测试验收的全链路交付。
+安装包已内置全量后台服务与本地数据库引擎，**零外部运行时依赖，安装后直接打开即可使用**。
 
-- **当前最新版本**：**`v0.1.001`**（[查看完整更新日志](CHANGELOG.md) · [前往 Releases 下载页](https://github.com/chengyunyi/reeve-releases/releases/latest)）
-- **验签公钥**：[`update.pub`](update.pub)（所有安装包归档与自动更新差分包均经 Ed25519 私钥签名）
+- **当前版本**：**`v0.1.001`**（[查看更新日志](CHANGELOG.md) · [前往 Releases 下载页](https://github.com/chengyunyi/reeve-releases/releases/latest)）
 
 ---
 
 ## 一键安装与环境检测（安装即用）
 
-Reeve 提供跨平台**环境自动检测与一键安装脚本**，无需克隆源码或本地编译。脚本会自动检测您的操作系统与 CPU 架构、诊断宿主机可选工程工具链（Git、Ripgrep、插件运行时、浏览器、编码 CLI），并自动下载、校验和安装最新签名版 Reeve 桌面客户端。
+Reeve 提供跨平台**环境自动检测与一键安装脚本**。脚本会自动识别您的操作系统与芯片架构、检测本机可选工具环境（Git、Ripgrep、Node/Bun、浏览器与外部编码 CLI），并自动下载安装最新版 Reeve 桌面客户端。
 
 ### 方式一：命令行一键检测环境并自动安装（推荐）
 
@@ -23,16 +22,16 @@ Reeve 提供跨平台**环境自动检测与一键安装脚本**，无需克隆�
 curl -fsSL https://github.com/chengyunyi/reeve-releases/releases/latest/download/install.sh | sh
 ```
 
-常用进阶选项：
+进阶选项：
 
 ```bash
-# 自动检测并调用系统包管理器（brew / apt / dnf / pacman）一键补齐缺失的推荐环境依赖（git / rg / node / Linux GTK4），随后安装 Reeve
+# 自动检测并调用系统包管理器（brew / apt / dnf / pacman）一键补齐缺失的推荐工具（git / rg / node / Linux GTK4），随后安装 Reeve
 curl -fsSL https://github.com/chengyunyi/reeve-releases/releases/latest/download/install.sh | sh -s -- --install-deps
 
-# 仅执行宿主机环境健康检测（不执行下载与安装）
+# 仅执行宿主机环境诊断（不下载安装）
 curl -fsSL https://github.com/chengyunyi/reeve-releases/releases/latest/download/install.sh | sh -s -- --check-only
 
-# 卸载 Reeve（保留个人设置与项目数据）
+# 卸载 Reeve（保留个人配置与项目数据）
 curl -fsSL https://github.com/chengyunyi/reeve-releases/releases/latest/download/install.sh | sh -s -- --uninstall
 ```
 
@@ -42,83 +41,81 @@ curl -fsSL https://github.com/chengyunyi/reeve-releases/releases/latest/download
 irm https://github.com/chengyunyi/reeve-releases/releases/latest/download/install.ps1 | iex
 ```
 
-如需在 Windows 下通过 `winget` 一并自动补齐缺失的 Git、Ripgrep 与 Node.js 环境依赖：
+如需在 Windows 下通过 `winget` 自动补齐缺失的 Git、Ripgrep 与 Node.js 环境：
 
 ```powershell
 $env:REEVE_INSTALL_DEPS="1"; irm https://github.com/chengyunyi/reeve-releases/releases/latest/download/install.ps1 | iex
 ```
 
----
-
 ### 方式二：直接下载官方安装包
 
-您也可以直接在 [**Releases 页面**](https://github.com/chengyunyi/reeve-releases/releases/latest) 下载对应系统的预编译签名安装包，双击安装后即可使用：
+您也可以在 [**Releases 下载页**](https://github.com/chengyunyi/reeve-releases/releases/latest) 直接下载对应系统的官方安装包：
 
 | 平台与架构 | 官方安装包直链（`v0.1.001`） | 安装说明 |
 | --- | --- | --- |
 | **macOS**（Apple Silicon `arm64`） | [**`reeve-0.1.001-arm64.dmg`**](https://github.com/chengyunyi/reeve-releases/releases/download/desktop-v0.1.001/reeve-0.1.001-arm64.dmg) | 打开 `.dmg` 将 `Reeve.app` 拖入「应用程序」即可运行 |
-| **Windows**（64 位 `x64`） | [**`reeve-setup-0.1.001-amd64.exe`**](https://github.com/chengyunyi/reeve-releases/releases/download/desktop-v0.1.001/reeve-setup-0.1.001-amd64.exe) | 双击运行向导完成安装，自动创建桌面与开始菜单快捷方式 |
+| **Windows**（64 位 `x64`） | [**`reeve-setup-0.1.001-amd64.exe`**](https://github.com/chengyunyi/reeve-releases/releases/download/desktop-v0.1.001/reeve-setup-0.1.001-amd64.exe) | 双击运行安装向导，自动创建桌面与开始菜单快捷方式 |
 | **Windows**（骁龙 / Surface `ARM64`） | [**`reeve-setup-0.1.001-arm64.exe`**](https://github.com/chengyunyi/reeve-releases/releases/download/desktop-v0.1.001/reeve-setup-0.1.001-arm64.exe) | 原生 ARM64 安装程序，双击安装即用 |
 | **Linux**（64 位 `x86_64`） | [**`reeve-0.1.001-linux-amd64.tar.gz`**](https://github.com/chengyunyi/reeve-releases/releases/download/desktop-v0.1.001/reeve-0.1.001-linux-amd64.tar.gz) | 配合上方 `install.sh` 自动安装至 `~/.local/reeve.app` 并注册桌面菜单 |
 
 ---
 
-### 环境自动检测说明与内置 CLI 安装器
+## 为什么选择 Reeve？—— 核心能力全景
 
-| 检测项 | 是否必需 | 用途与缺失时的自动处理策略 |
-| --- | --- | --- |
-| **Reeve 核心后台与数据库** | **已内置** | 随桌面安装包内置编译好的独立服务与 SQLite 引擎，**零外部依赖，开箱即用** |
-| **Git** | 推荐 | 用于项目「变更」面板、提交历史审阅与多智能体 Git Worktree 沙箱隔离（支持 `--install-deps` 自动安装） |
-| **Ripgrep (`rg`)** | 可选 | 提供超大代码仓库极速全文检索；未安装时自动无缝回退至 Reeve 内置文件搜索引擎 |
-| **Node.js / Bun** | 可选 | 基础对话与 84 个内置工具无需安装；仅在运行 JS 插件 Worker 或通过 `npm`/`bun` 安装外部 CLI 时按需使用 |
-| **Chrome / Chromium** | 可选 | 仅在开启右侧内置「浏览器（CDP 自动化）」面板时按需调用本机浏览器 |
-| **外部编码 Agent CLI** | 可选 | 启动 Reeve 后，打开 **「设置 → Agent CLI」** 即可一键扫描本机环境，并在图形界面内**一键安装或升级** Claude Code、Codex、Gemini CLI、Aider、OpenCode、Goose 等命令行智能体 |
+### 1. 内置多智能体编排器（Orchestrator）：从单打独斗到军团作战
+传统 AI 工具往往需要用户手动预设一堆繁琐的 Agent 角色。Reeve 将**编排器**直接内置在输入框底部的「选用模型」选择器中，支持会话按需自动组建并调度专家团队：
 
----
+- **自动编排器**：主控模型根据任务复杂度自行判断是否需要帮手——简单问题直接作答；复杂工程自动创建专业角色（如架构师、前端、后端、测试、安全审计）并委派子智能体并行或接力完成。
+- **蜂群并行 `/swarm`**：面对跨模块大规模重构、多维度调研或全仓排查，主控编排器自动将任务拆解为互不重叠的独立分片，同时派生多路子智能体并发执行，耗时成倍缩短。
+- **团队协同 `/teamwork`**：按照「方案拆解 → 编码实现 → 交叉审查与测试验证 → 汇总交付」的工程纪律组织多角色协作，确保每一处改动都经过二次把关。
+- **API 大模型 + 外部编码 CLI 双引擎混编**：不仅支持 OpenAI、Anthropic Claude、Google Gemini、DeepSeek 等各大模型服务与本地网关，还能将本机安装的 **Claude Code、Codex、Gemini CLI、Aider、OpenCode、Goose** 等命令行智能体直接纳管为团队成员（可在应用内「设置 → Agent CLI」一键检测与安装），实现云端 API 与本地 CLI 的混合编排。
 
-## 快速上手（3 步开聊）
+### 2. 真正的跨智能体实时通信：共享协作黑板（Shared Blackboard）
+多智能体协作最怕“各自为战、互不知情、改坏同一份文件”。Reeve 构建了三层智能体相互通信机制：
 
-1. **启动应用并连接模型**：
-   - 打开 Reeve，无需先创建项目即可直接进入内置**「个人空间」**（也可在左侧新建或导入代码文件夹作为工作项目）；
-   - 按 `⌘,`（Windows/Linux `Ctrl+,`）打开**「设置 → 提供商」**，填写模型 API Key 或一键同步本地网关配置（`~/.config/reeve/models.json`）；也可在**「设置 → Agent CLI」**一键安装并启用外部编码 CLI。
-2. **选择多智能体编排器**：
-   - 点击输入框底部的「选用模型」选择器，在顶部直接切换编排模式：
-     - **自动编排器**：根据问题复杂度按需自动创建专家角色并委派子智能体；
-     - **蜂群并行 `/swarm`**：将大型复杂任务自动拆分为独立分片，多路子智能体并发攻坚；
-     - **团队协同 `/teamwork`**：按「拆解 → 实现 → 审查」多角色分工接力与交叉把关；
-     - **单模型直连**：由当前选定模型直接回复；
-   - 也可在输入框直接输入 `/swarm`、`/teamwork`、`/plan`、`/goal`，或用 `@` 引用文件、目录、资料、技能及 `@全体成员`。
-3. **检视协同过程与交付成果**：
-   - 在会话顶栏随时切换 **「文档流 / 气泡流 / 时间线」** 三套聊天样式；
-   - 多角色并行回答时可切换横向 **「并排对比」** 视图并一键 **「汇总结论」**；
-   - 点击任意子智能体委派卡片可钻取查看实时思考流、分步耗时轨迹、**「智能体协同通信（共享黑板）」** 与 **「变更文件」**；
-   - 在个人空间讨论成熟后，点击顶栏 **「以此新建工作项目…」** 即可携带多智能体最新结论直接创建工程项目。
+- **主动黑板通信（`post_team_message`）**：任何子智能体在执行途中都可随时向会话共享黑板发布**接口契约（`contract`）**、**关键发现（`finding`）**、**交接事项（`handoff`）**或**风险阻塞（`risk`）**，支持 `@指定角色` 点对点投递或向全员广播；同一轮并发运行的其他子智能体会在下一步推理中**实时收到同伴刚发布的黑板消息**。
+- **三维自动上下文感知**：每当子智能体被委派时，系统自动向其注入**主会话用户原始诉求**、**同轮并发同伴的分工边界**（防止重复修改同一模块）以及**上游角色已交付的结论与变更文件账本（`ChangedFiles`）**。
+- **动态 `@点名交接`**：在顺序接力（`chain`）中，前序智能体可根据实际发现，通过 `@角色名` 或黑板交接消息动态指定下一棒最适合接手的专家角色。
 
----
+### 3. 三套自适应对话样式 + 并排对比 + 深度执行钻取
+不同的协作场景需要不同的信息呈现方式，Reeve 提供三套原生对话视图并支持顶栏一键切换：
 
-## 核心特性一览
+- **文档流（Document）**：高密度沉浸式排版，适合深度代码审阅、长篇架构设计与技术报告。
+- **气泡流（Bubble）**：角色头像、身份色卡与消息气泡层次分明，适合个人空间日常对话与多智能体群聊讨论。
+- **时间线（Timeline）**：左侧连续演进轨道串联每一次委派、工具调用与阶段节点，复杂多智能体脉络一目了然。
+- **`@全体成员` 同题并行与横向「并排对比」**：一键召唤多位角色同时回答同一问题，切换「并排对比」视图即可横向对照各专家的推理过程、工具调用胶囊与最终方案，并支持一键**「汇总结论」**。
+- **子智能体 Worker 钻取详情弹窗**：点击对话流中的任意子智能体工作卡片，即可弹窗查看其实时流式思考、每一步工具调用的耗时轨迹、跨智能体黑板通信记录以及本次修改的文件列表。
 
-- **多智能体编排器与三层相互通信**：
-  - 会话按需自动创建与复用专家子智能体（`create_team_role` / `delegate_to_role`），弱化手动预建角色负担；
-  - 内置**会话共享协作黑板（`post_team_message`）**，支持子智能体在运行途中实时广播或定向发送接口契约（`contract`）、关键发现（`finding`）、交接事项（`handoff`）与风险阻塞（`risk`），同轮并发 Worker 实时增量感知；
-  - 委派时自动注入用户原始诉求、同轮并发同伴分工边界、上游交付结论与变更文件账本（`ChangedFiles`），顺序接力（`chain`）支持动态 `@点名交接`。
-- **三套对话视图与并排对比**：
-  - 支持「文档流」「气泡流」「时间线」智能推导与一键切换；
-  - `@全体成员` 同题并行回复自动聚合为横向并排对比卡片（内嵌成员思考与工具过程胶囊）并支持一键汇总。
-- **全局个人空间与工作项目双空间**：
-  - 内置个人空间（预置个人助手、思维与写作、技术顾问）与跨项目偏好记忆；支持自定义默认项目存储位置与保留目录防碰撞保护。
-- **四列任务看板与 LoopForge 2D 自动化流程画布**：
-  - 任务对话自动纳入「待开始 / 进行中 / 待验收 / 已完成」四列看板，结合任务 DAG 依赖拆分合并与客观测试指纹门禁验收；
-  - 自动化任务支持「对话模式」与 2D 交互式「流程画布」（Agent 节点、脚本与文件验证节点、人工审批门、产物汇总节点、失败返工虚线回边），支持手动触发、固定间隔与标准 5 段 Cron 定时调度。
-- **全栈宿主机工程工具链与免限流自动更新**：
-  - 集成版本乐观锁文件编辑器、Git 多仓库与多 Agent Worktree 沙箱隔离/冲突合入、交互式 PTY 终端、Chrome CDP 浏览器、三端零 CGO 原生桌面控制（Computer Use）及 22 个内置官方插件 / 双向 MCP / Skills / Hooks；
-  - 内置基于 GitHub Release 直连与 `releases.atom` 的免 API 限流自动更新器，所有更新包经 Ed25519 强签名校验并在升级前自动创建 SQLite 一致性备份。
+### 4. 「全局个人空间」与「工程项目工作区」无缝流转
+- **打开即聊的个人空间**：无需先建文件夹或绑定代码仓库，启动 Reeve 即可在全局「个人空间」与内置的「个人助手」「思维与写作」「技术顾问」随时开启头脑风暴、方案推演与日常写作，自动沉淀跨项目个人偏好与记忆。
+- **一键跃迁为工作项目**：当个人空间中的多智能体讨论成型后，点击会话顶栏**「以此新建工作项目…」**，即可自动携带多智能体最新讨论结论初始化工程目录，直接进入编码落地阶段。
+
+### 5. 四列任务看板、LoopForge 2D 自动化画布与客观验收门禁
+- **四列任务看板与任务 DAG**：区分日常讨论的「普通对话」与面向交付的「任务对话」。任务对话自动进入「待开始 / 进行中 / 待验收 / 已完成」四列拖拽看板，支持父子任务依赖拓扑（DAG）拆解合并、断点检查点交接与统一预算控制。
+- **客观测试门禁（Verification Gate）**：工作是否真正完成不靠模型“自称完成”，而是由后台绑定实际测试命令与验证指纹进行客观核验，未通过验证自动进入缺陷闭环。
+- **LoopForge 2D 交互式自动化流程画布**：支持以「对话模式」或「2D 节点画布」编排自动化任务——自由拖拽 **Agent 执行节点**、**脚本与文件验证节点**、**人工审批门**与**产物汇总节点**，配置**失败自动返工回边（Rework-on-Failure）**，并支持手动触发、固定间隔或标准 **5 段 Cron 表达式**定时巡检运行。
+
+### 6. 全栈宿主机工程工具箱与丰富扩展生态
+无需在多个软件间频繁切屏，Reeve 右侧与底部集成了完整的原生工程套件：
+
+- **文件与代码编辑器**：内置文件树、语法高亮与版本乐观锁（防并发覆盖冲突）。
+- **Git 多仓库与多 Agent Worktree 沙箱隔离**：可视化暂存、提交、分支切换、安全快照，支持为并发子智能体分配独立 Git Worktree 沙箱并在完成后检测冲突、一键合入，还支持将 PR 评论或 CI 报错一键转化为待修复缺陷。
+- **交互式 PTY 终端**：原生多标签终端，支持一键将终端报错选中引用到对话输入框。
+- **内置 CDP 自动化浏览器**：智能体可直接打开网页、点击输入、读取 DOM 快照、采集控制台报错并截图回传视觉模型进行 UI 联调。
+- **原生桌面控制（Computer Use）**：跨 macOS、Windows、Linux 三端零 CGO 原生桌面无障碍控件树读取、窗口截图与鼠标键盘自动化操作，配备敏感操作确认门禁、频率限制与全局快捷键急停。
+- **22 个官方内置插件 + 双向 MCP + Skills + Hooks**：内置 HTTP Client、Kubernetes、Redis、S3、Sentry、Linear、Notion、Slack、飞书、Stripe、依赖安全审计等 22 款开箱即用插件；支持接入外部 MCP Server，也可将 Reeve 作为 MCP Server 暴露给外部工具；内置结构化项目记忆与历史避坑（Pitfall）自动注入。
 
 ---
 
-## 版本规范与签名安全约定
+## 快速上手（3 步开启多智能体协作）
 
-- **三段式三位补零版本号**：采用 `MAJOR.MINOR.PATCH` 格式（从 `0.1.001` 起步；后三位 `PATCH` 为 `001`–`999`，满 `0.1.999` 后自动进位至 `0.2.000`）。
-- **桌面发布标签**：`desktop-v<版本>`（例如 `desktop-v0.1.001`）。
-- **Ed25519 签名校验**：每个平台的更新清单 `update-<系统>-<架构>.json`、完整归档 `.tar.gz` 与增量差分包 `.delta` 均由 Ed25519 私钥签名，客户端使用内置公钥 [`update.pub`](update.pub) 强制验签。
-- **本地数据隐私**：本仓库仅提供公开安装包、环境检测安装脚本与签名更新元数据；您所有的项目、会话、记忆与加密模型凭据均 100% 存储在您本机的 `$REEVE_HOME` SQLite 数据库中。
+1. **连接模型或一键安装 CLI**：
+   - 打开 Reeve，按 `⌘,`（Windows/Linux `Ctrl+,`）进入**「设置 → 提供商」**，配置任意模型厂商 API Key（或一键导入本地网关配置 `~/.config/reeve/models.json`）；
+   - 也可进入**「设置 → Agent CLI」**，一键扫描并在界面内点击安装 Claude Code、Codex、Gemini CLI 等命令行智能体。
+2. **在个人空间或项目中发起任务**：
+   - 直接在左侧**「个人空间」**随手开聊，或新建/打开一个本地代码项目；
+   - 点击输入框底部模型选择器，选择**「自动编排器」**、**「蜂群并行 `/swarm`」**或**「团队协同 `/teamwork`」**；
+   - 使用 `@` 引用项目文件、目录、文档、技能或点名 `@全体成员`，用 `/` 调出快捷命令菜单。
+3. **审阅、对比与交付**：
+   - 顶栏自由切换「文档流 / 气泡流 / 时间线」或「并排对比」，点击子智能体卡片钻取黑板通信与文件变更；
+   - 通过右侧「文件」「变更」「浏览器」「桌面控制」与底部「终端」实时检视交付成果。
