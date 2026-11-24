@@ -1,0 +1,58 @@
+{
+  "id": "misty-jade-theme",
+  "name": "烟雨青玉（示例主题）",
+  "version": "1.0.0",
+  "kind": "theme",
+  "author": "Reeve Examples",
+  "description": "Reeve 渐变与液态玻璃主题插件官方入门模板，同时定义浅色晨雾与深色墨玉双模式色板。",
+  "themes": [
+    {
+      "id": "misty-jade",
+      "name": "烟雨青玉",
+      "light": {
+        "background": "#EFF8F5",
+        "gradientFrom": "#F6FCFA",
+        "gradientTo": "#DAEFEB",
+        "ambientGlow": "#10B9812E",
+        "ambientGlowSecondary": "#14B8A621",
+        "surface": "#FFFFFFD9",
+        "surfaceHover": "#E6F5F0",
+        "surfacePressed": "#D6ECE5",
+        "border": "#C2E2D9",
+        "text": "#0E2923",
+        "textMuted": "#4B6E65",
+        "accent": "#0D9488",
+        "accentHover": "#0F766E",
+        "accentPressed": "#115E59",
+        "accentText": "#FFFFFF",
+        "focus": "#14B8A6",
+        "selection": "#0D948824",
+        "success": "#0F8A61",
+        "warning": "#B4690E",
+        "danger": "#D1344A"
+      },
+      "dark": {
+        "background": "#091715",
+        "gradientFrom": "#071210",
+        "gradientTo": "#112B27",
+        "ambientGlow": "#14B8A62B",
+        "ambientGlowSecondary": "#2DD4BF1F",
+        "surface": "#102421E0",
+        "surfaceHover": "#17332F",
+        "surfacePressed": "#1E423C",
+        "border": "#234B44",
+        "text": "#ECFDF8",
+        "textMuted": "#8FB5AC",
+        "accent": "#2DD4BF",
+        "accentHover": "#5EEAD4",
+        "accentPressed": "#14B8A6",
+        "accentText": "#06201C",
+        "focus": "#2DD4BF",
+        "selection": "#2DD4BF33",
+        "success": "#34D399",
+        "warning": "#FBBF24",
+        "danger": "#FB7185"
+      }
+    }
+  ]
+}

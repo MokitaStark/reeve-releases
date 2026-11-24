@@ -1,0 +1,84 @@
+{
+  "id": "slot-starter",
+  "name": "插槽灵感工作台",
+  "version": "1.0.0",
+  "description": "Reeve 原生插件槽（Plugin Slots）官方完整示例：演示 7 大插槽渲染、自定义矢量 SVG、表单状态持久化与交互联动。",
+  "kind": "worker",
+  "entry": "index.mjs",
+  "icon": "icon.svg",
+  "permissions": [],
+  "tools": [
+    {
+      "name": "slot_starter_status",
+      "description": "返回插槽灵感工作台当前演示状态与全部 7 个已挂载插件槽清单。",
+      "readOnly": true,
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    }
+  ],
+  "slots": [
+    {
+      "id": "composer-quickbar",
+      "slot": "conversation.composer.dock",
+      "title": "灵感快捷条",
+      "description": "显示在输入框正上方的快捷提示词与面板直达条",
+      "icon": "spark",
+      "order": 10
+    },
+    {
+      "id": "status-capsule",
+      "slot": "conversation.header.utilities",
+      "title": "灵感脉冲",
+      "description": "顶栏右侧实时计数胶囊与点击弹出的毛玻璃微卡片",
+      "icon": "activity",
+      "order": 10
+    },
+    {
+      "id": "workspace",
+      "slot": "main",
+      "title": "灵感工作台",
+      "description": "主区全幅灵感梳理、SVG 图示与交互清单工作台",
+      "icon": "icon.svg",
+      "order": 10
+    },
+    {
+      "id": "workspace",
+      "slot": "sidebar.nav",
+      "title": "灵感工作台",
+      "description": "左侧导航栏快捷入口，自动配对跳转到 main 主区页面",
+      "icon": "icon.svg",
+      "order": 10
+    },
+    {
+      "id": "quick-notes",
+      "slot": "right_panel",
+      "title": "灵感便签",
+      "description": "右侧可拖拽液态玻璃分栏随手记与提示词回填",
+      "icon": "compose",
+      "order": 10
+    },
+    {
+      "id": "starter-tips",
+      "slot": "conversation.starter",
+      "title": "创作向导",
+      "description": "新对话空白欢迎页引导卡片，支持一键带入模版或打开主视图",
+      "icon": "plugin",
+      "order": 10
+    },
+    {
+      "id": "message-pin",
+      "slot": "conversation.message.footer",
+      "title": "收藏灵感",
+      "description": "助手消息底栏操作按钮，一键将本条回复摘要收藏到工作台",
+      "icon": "pin",
+      "order": 10,
+      "action": {
+        "type": "dispatch",
+        "handler": "collect_message"
+      }
+    }
+  ]
+}

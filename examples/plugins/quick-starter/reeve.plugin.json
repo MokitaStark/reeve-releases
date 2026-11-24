@@ -1,0 +1,56 @@
+{
+  "id": "quick-starter",
+  "name": "插件开发入门示例",
+  "version": "1.0.0",
+  "description": "Reeve 官方插件编写教程标准示例：演示只读诊断工具、项目工作区路径安全边界校验、生命周期钩子与内置技能。",
+  "kind": "worker",
+  "entry": "index.mjs",
+  "permissions": [
+    "fs:project-read",
+    "fs:project-write"
+  ],
+  "tools": [
+    {
+      "name": "inspect_workspace",
+      "description": "只读检查当前项目工作区概览与关键文件清单。",
+      "readOnly": true,
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "subDir": {
+            "type": "string",
+            "description": "可选：要检查的项目子目录相对路径，默认为项目根目录。"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "write_note",
+      "description": "向项目 .reeve/notes/ 目录写入一条 Markdown 开发笔记（演示工作区边界限制）。",
+      "readOnly": false,
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "笔记标题（自动过滤非法文件名字符）。"
+          },
+          "content": {
+            "type": "string",
+            "description": "笔记正文（Markdown 文本）。"
+          }
+        },
+        "required": ["title", "content"],
+        "additionalProperties": false
+      }
+    }
+  ],
+  "skills": [
+    {
+      "name": "starter-plugin-usage",
+      "description": "指导智能体使用 quick-starter 插件检查工作区并记录结构化笔记。",
+      "content": "# quick-starter 插件使用规范\n\n- 浏览项目结构请先调用只读工具 `inspect_workspace`。\n- 需要沉淀调查笔记时再调用 `write_note`，所有笔记安全保存在 `.reeve/notes/` 目录中。"
+    }
+  ]
+}
