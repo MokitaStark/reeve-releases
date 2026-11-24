@@ -17,14 +17,15 @@ npx skills add MokitaStark/reeve-releases --skill reeve-plugin-dev
 npx skills add MokitaStark/reeve-releases --skill reeve-theme-dev
 ```
 
-- **在 Reeve 桌面端中一键导入**：打开 `设置 → 技能（Skills） → 命令安装`，直接输入 `MokitaStark/reeve-releases` 点击安装，系统会自动下载并导入技能库。
+- **在 Reeve 桌面端中一键导入**：打开 `设置 → Skills → 命令安装`，直接输入 `MokitaStark/reeve-releases` 点击安装，系统会自动下载并导入技能库。
 - **技能目录索引**：
   - [`skills/reeve-plugin-dev`](../skills/reeve-plugin-dev/SKILL.md)：覆盖 `worker` 动态工具插件、`config` 静态插件、7 大原生声明式插件槽（[UI 节点规范](../skills/reeve-plugin-dev/references/plugin-slots-ui.md)）与私有插件市场发布（[安全与市场规范](../skills/reeve-plugin-dev/references/marketplace-and-security.md)）。
-  - [`skills/reeve-theme-dev`](../skills/reeve-theme-dev/SKILL.md)：覆盖 `kind: "theme"` 浅色/深色双模式毛玻璃表面、渐变背景与氛围光晕色板设计。
+  - [`skills/reeve-theme-dev`](../skills/reeve-theme-dev/SKILL.md)：覆盖 `kind: "theme"` 液态玻璃渐变主题插件，以及 `kind: "genui-style"` 对话生成式 UI 视觉风格插件（[GenUI 风格规范](../skills/reeve-theme-dev/references/genui-style-plugins.md)）。
 - **官方入门脚手架模板**：
   - [`examples/plugins/quick-starter`](../examples/plugins/quick-starter/README.md)：最小 Worker 工具与内置 Skill 示例。
   - [`examples/plugins/slot-starter`](../examples/plugins/slot-starter/README.md)：一次性挂载全部 7 大原生界面插槽、矢量 SVG 与交互表单的完整示例。
   - [`examples/plugins/theme-starter`](../examples/plugins/theme-starter/README.md)：双模式渐变与液态玻璃外观主题示例。
+  - [`examples/plugins/genui-style-starter`](../examples/plugins/genui-style-starter/README.md)：对话生成式 UI 卡片、图表色板与几何圆角风格插件示例。
 
 ---
 
@@ -56,13 +57,14 @@ Reeve 原生内置了 **创造模式（`mode: "create"`）**，无需手工建�
            └─▶ 环境变量安全白名单过滤与入参 JSON Schema 递归强校验
 ```
 
-Reeve 支持三类 `reeve.plugin.json` 清单形态：
+Reeve 支持四类 `reeve.plugin.json` 清单形态：
 
 | 形态 | `kind` | 核心用途 | 子进程开销 |
 | --- | --- | --- | --- |
 | **动态工具与交互插槽插件** | `"worker"` | 封装外部 API / 数据库 / 本地 CLI 供智能体调用，或编写带状态交互的动态界面插槽 | 按需托管独立 Worker 子进程 |
 | **纯配置与静态插槽插件** | `"config"` | 分发团队专属提示词快捷条、静态 SVG 装饰挂件、外链导航卡片或内置 `skills` | 零子进程开销（`tools: []`） |
 | **外观配色主题插件** | `"theme"` | 定义浅色与深色双模式调色板、窗口线性渐变与氛围柔光光晕 | 纯静态 JSON 快照，不执行代码 |
+| **生成式 UI 视觉风格插件** | `"genui-style"` | 独立定制对话 `render_ui` 卡片圆角、密度、阴影、图表曲线及浅深双模式图表色板（跨桌面/手机生效） | 纯静态 JSON 快照，不执行代码 |
 
 ---
 
@@ -182,13 +184,17 @@ export const tools = {
 
 ---
 
-## 六、编写外观与渐变主题插件（`kind: "theme"`）
+## 六、编写外观主题（`kind: "theme"`）与生成式 UI 风格插件（`kind: "genui-style"`）
 
-只需一个 `reeve.plugin.json` 文件即可为 Reeve 定制专属浅色/深色渐变毛玻璃皮肤（详见 [`skills/reeve-theme-dev/SKILL.md`](../skills/reeve-theme-dev/SKILL.md) 与 [`examples/plugins/theme-starter`](../examples/plugins/theme-starter/README.md)）：
+只需一个纯声明式 `reeve.plugin.json` 文件即可安全扩展 Reeve 的视觉体验：
 
-- 顶层 `kind` 固定为 `"theme"`，`themes` 数组包含 1～20 套主题，每套主题的 `light` 与 `dark` 均须提供 `background` 和 `text`。
-- 支持 `gradientFrom`、`gradientTo` 线性渐变与 `ambientGlow`、`ambientGlowSecondary` 8 位 Hex Alpha 柔光光晕，以及 `surface` 半透明毛玻璃表面色。
-- 完成后在 **「设置 → 外观 → 主题插件 → 导入主题插件」** 选择文件或目录即可生效。
+1. **工作台液态玻璃渐变主题（`kind: "theme"`）**（详见 [`skills/reeve-theme-dev/SKILL.md`](../skills/reeve-theme-dev/SKILL.md) 与 [`examples/plugins/theme-starter`](../examples/plugins/theme-starter/README.md)）：
+   - `themes` 数组包含 1～20 套主题，每套主题的 `light` 与 `dark` 均须提供 `background` 和 `text`；
+   - 支持 `gradientFrom`、`gradientTo` 线性渐变与 `ambientGlow`、`ambientGlowSecondary` 8 位 Hex Alpha 柔光光晕，以及 `surface` 半透明毛玻璃表面色；
+   - 在 **「设置 → 外观 → 主题插件 → 导入主题插件」** 选择目录或文件即可生效。
+2. **对话生成式 UI 视觉风格（`kind: "genui-style"`）**（详见 [`genui-style-plugins.md`](../skills/reeve-theme-dev/references/genui-style-plugins.md) 与 [`examples/plugins/genui-style-starter`](../examples/plugins/genui-style-starter/README.md)）：
+   - `styles` 数组包含 1～20 套风格，通过 `tokens` 控制 `cardRadius`、`blockRadius`、`density`、`shadow`、`chartCurve`、`recommendStyle` 等几何美学参数，通过 `light` / `dark` 定义 12 项表面令牌与最多 8 色 `chartColors` 图表调色板；
+   - 在 **「设置 → 生成式 UI → 生成式 UI 风格插件 → 导入风格包」** 导入后实时预览，并在桌面端与已配对移动端同步生效。
 
 ---
 
@@ -200,7 +206,7 @@ export const tools = {
    - 标记 `readOnly: true` 的工具严禁产生任何写副作用。
 2. **本地单元测试**：
    ```bash
-   bun test ./examples/plugins/quick-starter ./examples/plugins/slot-starter ./examples/plugins/theme-starter
+   bun test ./examples/plugins/quick-starter ./examples/plugins/slot-starter ./examples/plugins/theme-starter ./examples/plugins/genui-style-starter
    ```
 3. **搭建团队插件市场（`registry.json`）**：
    将 `registry.json` 与 `.tar.gz` 插件包（附 `sha256` 校验摘要，单包上限 20 MB）托管在共享目录、内网或 GitHub Releases，团队成员即可在 **「设置 → 插件 → 插件市场 → 市场源管理 → 添加市场源」** 中填入路径或 HTTPS 地址，实现一键浏览、SHA-256 验签安装与热更新。详细字段规范见 [`marketplace-and-security.md`](../skills/reeve-plugin-dev/references/marketplace-and-security.md)。

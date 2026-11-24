@@ -1,11 +1,15 @@
 ---
 name: reeve-theme-dev
-description: 设计、编写并校验 Reeve 桌面端外观主题插件（kind 为 theme 的 reeve.plugin.json）。当用户想要为 Reeve 定制配色方案、毛玻璃皮肤、浅色/深色双模式调色板、渐变背景或氛围光效（gradientFrom / gradientTo / ambientGlow）时，务必使用此技能。
+description: 设计、编写并校验 Reeve 外观主题插件（kind 为 theme）与对话生成式 UI 视觉风格插件（kind 为 genui-style）。当用户想要为 Reeve 定制配色方案、毛玻璃皮肤、浅色/深色双模式调色板、渐变背景与氛围光效，或定制对话内生成式 UI 交互卡片、图表色板、圆角密度风格（如 Catppuccin、Geist、shadcn 风格）时，务必使用此技能。
 ---
 
-# Reeve 外观与渐变主题插件开发指南
+# Reeve 外观主题与生成式 UI 风格插件开发指南
 
-Reeve 的外观主题插件采用纯声明式 JSON（`kind: "theme"`），完全不执行任何脚本代码，安全、轻量且支持一键导入与即时热切换。单个主题插件可包含 **1～20 套**子主题，每套子主题同时定义浅色（`light`）与深色（`dark`）调色板，完美融合 Reeve 的 Apple 原生液态玻璃（Liquid Glass）材质。
+Reeve 提供两类纯声明式 JSON 视觉扩展插件（完全不执行任何脚本代码，文件上限均为 `256 KiB`，且开启 `DisallowUnknownFields` 严格字段校验）：
+- **工作台外观主题插件（`kind: "theme"`）**：定制全局窗口背景、液态玻璃表面、文字层级与氛围光晕（见下文第 1～4 节）。
+- **生成式 UI 风格插件（`kind: "genui-style"`）**：独立定制对话流 `render_ui` 交互卡片、KPI 走势、多序列图表、表格与对比卡的圆角、密度、阴影及浅深双色板（桌面端与移动端同步生效）。**当用户需要开发 `genui-style` 风格插件时，请直接读取 `references/genui-style-plugins.md`**。
+
+Reeve 的外观主题插件采用纯声明式 JSON（`kind: "theme"`），单个主题插件可包含 **1～20 套**子主题，每套子主题同时定义浅色（`light`）与深色（`dark`）调色板，完美融合 Reeve 的 Apple 原生液态玻璃（Liquid Glass）材质。
 
 ## 1. 清单结构与严格校验规则
 

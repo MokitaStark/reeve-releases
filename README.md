@@ -82,14 +82,15 @@ $env:REEVE_INSTALL_DEPS="1"; irm https://github.com/MokitaStark/reeve-releases/r
 - **团队协同（`/teamwork`）与实时共享黑板（`/board`）**：按「方案设计 → 核心实现 → 交叉审查与测试验收」接力推进；任何子智能体均可通过 `post_team_message` 向共享黑板实时发布**接口契约（`contract`）**、**关键发现（`finding`）**、**交接事项（`handoff`）**与**风险（`risk`）**，同轮并发同伴下一步即可增量感知。
 - **云端 API + 本地 Agent CLI 双引擎混编**：支持 OpenAI、Anthropic Claude、Google Gemini、DeepSeek 等协议及自定义网关，同时可将本机安装的 **Claude Code、Codex、Gemini CLI、Aider、OpenCode、Goose** 直接纳管为团队成员（支持应用内一键检测安装）。
 
-### 2. Apple 原生液态玻璃桌面、灵动岛胶囊与多维视图
+### 2. Apple 原生液态玻璃桌面、生成式 UI（GenUI）与灵动岛/桌宠交互
 - **液态玻璃皮肤与官方渐变主题**：默认搭载「Apple 原生」液态玻璃界面（全高悬浮侧栏、跟随系统强调色），内置蔚蓝、极光薄荷、深海青、樱粉、暮光紫、落日琥珀 **6 套双模式渐变与氛围光晕主题**。
-- **macOS 菜单栏状态胶囊与刘海灵动岛**：在不遮挡编码视线的前提下，通过顶部菜单栏胶囊或刘海灵动岛实时查看多智能体运行脉冲、快捷截图并秒切工作区。
+- **对话内原生生成式 UI（`render_ui`）与可扩展风格引擎**：无需笨重的内嵌 WebView，对话流原生渲染 **KPI 指标磁贴（含 Sparkline 迷你走势）**、**多序列折线/柱状/面积/环形图**、**可排序状态表格**、**方案优劣对比卡**、**时间线**、**交互核对清单**与**分段标签页**（桌面端与手机端一致呈现）；内置 `Reeve 原生`、`shadcn/ui`、`Linear 极客`、`Editorial 出版物`、`Terminal 工程` 5 套预设及 `Catppuccin 柔彩`、`Vercel Geist` 等风格包。
+- **macOS 菜单栏胶囊、刘海灵动岛与边缘贴靠灵动球（Pet Orb）**：支持在不打断心流的前提下通过灵动岛或屏幕边缘自动收拢悬浮球实时偷看进度（Live Peek）、快捷截图、秒切工作区，并在全屏演示时自动隐身避让；多智能体长任务运行期间自动启用**智能防系统休眠**。
 - **三套对话视图 + 横向并排对比 + Worker 钻取**：顶栏一键切换**文档流**、**气泡流**与**时间线**；使用 `@全体成员` 同题并发时支持横向**「并排对比」**与一键汇总结论；点击任意子智能体卡片可弹窗钻取流式推理、工具耗时轨迹、黑板通信与变更文件账本。
 
-### 3. Aide 全局个人空间、知识库与移动端远程协同
-- **Aide 个人空间（知识库 & 媒体图库）**：无需先建代码仓即可直接开聊，内置个人空间主页、交付物管理、多模态**知识库检索（`Knowledge`）**与**媒体图库（`Gallery`）**；讨论成熟后点击**「以此新建工作项目…」**即可携带多智能体结论无缝跃迁至工程目录。
-- **手机端远程协同控制台（LAN / Tailscale）**：在「设置 → 移动端与远程」开启局域网或 Tailscale 安全监听，通过 5 分钟单次有效 **6 位配对码**或双模式二维码扫码接入手机 App / 浏览器 `/mobile` 控制台——离开电脑也能在手机上实时同步会话焦点、回答分步单题向导、远程批准高危工具调用或一键紧急暂停。
+### 3. Aide 全局个人空间、交互式知识图谱与移动端远程协同
+- **Aide 个人空间（知识图谱 · 每日简报 · 灵感火花 · 媒体图库）**：无需先建代码仓即可直接开聊，内置**每日简报（Briefing）**、**灵感火花（Sparks）**、多模态**知识库与力导向交互式知识图谱（`Knowledge Graph`）**及**媒体图库（`Gallery`）**，可视化串联文档、产物、长期记忆与标签；讨论成熟后点击**「以此新建工作项目…」**即可携带结论无缝跃迁至工程目录。
+- **手机端远程协同控制台（LAN / Tailscale）**：在「设置 → 移动端与远程」开启局域网或 Tailscale 安全监听，通过 5 分钟单次有效 **6 位配对码**或双模式二维码扫码接入手机 App / 浏览器 `/mobile` 控制台——离开电脑也能在手机上实时同步会话焦点、查看生成式 UI 卡片、回答分步单题向导、远程批准高危工具调用或一键紧急暂停。
 
 ### 4. 四列看板、LoopForge 2D AI 画布、检查点回滚与热敏小票账单
 - **四列任务 DAG 看板与客观验收门禁**：支持「待开始 / 进行中 / 待验收 / 已完成」拖拽流转与父子任务依赖拓扑，绑定真实测试命令进行客观验收核验。
@@ -119,12 +120,12 @@ npx skills add MokitaStark/reeve-releases --skill reeve-plugin-dev
 npx skills add MokitaStark/reeve-releases --skill reeve-theme-dev
 ```
 
-> **在 Reeve 桌面端内图形化安装**：打开 `设置 → 技能（Skills） → 命令安装`，输入 `MokitaStark/reeve-releases` 点击安装，Reeve 会自动拉取并导入启用以下两套技能：
+> **在 Reeve 桌面端内图形化安装**：打开 `设置 → Skills → 命令安装`，输入 `MokitaStark/reeve-releases` 点击安装，Reeve 会自动拉取并导入启用以下两套技能：
 
 | 官方技能名称 | 适用场景与核心能力 | 技能文档直达 |
 | --- | --- | --- |
 | **`reeve-plugin-dev`** | 指导 AI 编写 `worker` 工具插件、`config` 配置插件、**7 大原生界面插槽（Plugin Slots）**声明式 UI、矢量 SVG 挂件、单元测试及 `registry.json` 插件市场配置 | [SKILL.md](skills/reeve-plugin-dev/SKILL.md) · [插槽 UI 字典](skills/reeve-plugin-dev/references/plugin-slots-ui.md) · [市场与安全规范](skills/reeve-plugin-dev/references/marketplace-and-security.md) |
-| **`reeve-theme-dev`** | 指导 AI 设计并校验 `kind: "theme"` 浅色/深色双模式液态玻璃表面、线性渐变（`gradientFrom` / `gradientTo`）与柔和氛围光晕（`ambientGlow`）主题插件 | [SKILL.md](skills/reeve-theme-dev/SKILL.md) |
+| **`reeve-theme-dev`** | 指导 AI 设计并校验 `kind: "theme"` 液态玻璃渐变主题插件，以及 `kind: "genui-style"` **对话生成式 UI 视觉风格插件**（圆角/密度/图表色板跨桌面与移动端同步生效） | [SKILL.md](skills/reeve-theme-dev/SKILL.md) · [GenUI 风格规范](skills/reeve-theme-dev/references/genui-style-plugins.md) |
 
 ### 2. 零代码方式：在 Reeve「创造模式（`/create`）」中对话写插件
 
@@ -136,7 +137,7 @@ npx skills add MokitaStark/reeve-releases --skill reeve-theme-dev
    - *“帮我写一个右侧栏灵感便签插件，支持把助手回复一键收藏进来”*
 3. 智能体会自动调用 `inspect_plugin_slots` 读取插槽协议，在工作区编写代码后调用 `install_plugin` 执行 **`slotVerification` 逐槽渲染自检**，通过后插件立即出现在您的 Reeve 界面上。
 
-### 3. 手动 / 脚手架开发：三类插件核心规范速览
+### 3. 手动 / 脚手架开发：四大原生插件形态速览
 
 您可以直接参考完整手册 [**《Reeve 插件与主题开发完整指南》**](docs/plugin-development.md) 或克隆本仓库的 `examples/plugins/` 模板起步：
 
@@ -145,6 +146,7 @@ npx skills add MokitaStark/reeve-releases --skill reeve-theme-dev
 | **工具与动态插槽插件** | `"worker"` | 包含 `reeve.plugin.json` + 零依赖 `index.mjs`（兼容 Bun 与 Node.js >= 20），通过 `stdin/stdout` JSON-Line 导出 `tools` 与动态 `slots` | [examples/plugins/quick-starter](examples/plugins/quick-starter/README.md)<br>[examples/plugins/slot-starter](examples/plugins/slot-starter/README.md) |
 | **静态配置与插槽插件** | `"config"` | 仅需 `reeve.plugin.json`（`tools: []`，零子进程开销），适合分发内置 `skills`、静态快捷按钮条或 SVG 装饰卡片 | 见 [开发指南 §五](docs/plugin-development.md#五原生声明式插件槽plugin-slots--7-大挂载位) |
 | **液态玻璃渐变主题** | `"theme"` | 纯声明式 JSON 定义 `themes[].light / dark` 共 19 个色彩与渐变光晕令牌，在 `设置 → 外观` 一键导入热切换 | [examples/plugins/theme-starter](examples/plugins/theme-starter/README.md) |
+| **生成式 UI 视觉风格** | `"genui-style"` | 纯声明式 JSON 定义对话 `render_ui` 卡片圆角、密度、图表曲线与双模式 8 色图表色板，在 `设置 → 生成式 UI` 导入并跨桌面/手机同步生效 | [examples/plugins/genui-style-starter](examples/plugins/genui-style-starter/README.md) |
 
 #### 原生插件槽（Plugin Slots）支持的 7 大挂载位置
 
@@ -168,8 +170,8 @@ Reeve 将插件返回的声明式 JSON 节点树（22 种 `PluginUINode` 组件 
 #### 本地测试与团队私有插件市场（`registry.json`）
 
 ```bash
-# 使用 Bun 运行示例插件与主题合规单测
-bun test ./examples/plugins/quick-starter ./examples/plugins/slot-starter ./examples/plugins/theme-starter
+# 使用 Bun 运行全部四类示例插件与风格合规单测
+bun test ./examples/plugins/quick-starter ./examples/plugins/slot-starter ./examples/plugins/theme-starter ./examples/plugins/genui-style-starter
 ```
 
 - **本地安装**：打开 Reeve `设置 → 插件 → 安装本地插件`，选择包含 `reeve.plugin.json` 的目录即可启用。

@@ -15,7 +15,8 @@ description: 开发、调试、校验并发布 Reeve 桌面工作台插件（ree
 | --- | --- | --- | --- |
 | **纯配置 / 静态插槽插件** | `"config"` | 内置项目 `skills`、提示词快捷按钮、外链卡片、静态 SVG 挂件 | 否（`tools` 必须为空数组 `[]`，不设 `entry`） |
 | **动态工具 / 交互插槽插件** | `"worker"` | 提供 Agent 可调用工具（API/DB/CLI 封装），或需要动态渲染状态、响应表单交互的插件槽 | 是（通过 `stdin/stdout` 单行 JSON 与 Go 宿主通信） |
-| **外观配色主题插件** | `"theme"` | 定制浅色/深色毛玻璃色板、渐变背景与氛围光晕 | 否（独立主题清单，见 `reeve-theme-dev`） |
+| **外观配色主题插件** | `"theme"` | 定制工作台浅色/深色毛玻璃色板、渐变背景与氛围光晕 | 否（独立主题清单，见 `reeve-theme-dev`） |
+| **生成式 UI 风格插件** | `"genui-style"` | 定制对话内 `render_ui` 交互卡片、图表色板、圆角与排版密度（跨桌面/移动端生效） | 否（见 `reeve-theme-dev/references/genui-style-plugins.md`） |
 
 > **如果在 Reeve 应用内的「创造模式（`/create`）」下执行**：
 > 1. 先调用 `list_plugins` 与 `inspect_plugin_slots` 获取当前已装插件与最新 7 大插槽契约；

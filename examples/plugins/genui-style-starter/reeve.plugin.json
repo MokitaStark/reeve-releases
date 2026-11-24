@@ -1,0 +1,60 @@
+{
+  "id": "nordic-frost-genui-style",
+  "name": "北极冰川（示例 GenUI 风格）",
+  "version": "1.0.0",
+  "kind": "genui-style",
+  "author": "Reeve Examples",
+  "description": "Reeve 对话生成式 UI 风格插件官方入门模板，定义清透冷调圆角卡片、平滑曲线图表与浅深双模式色板。",
+  "styles": [
+    {
+      "id": "nordic-frost",
+      "name": "北极冰川",
+      "description": "清透冰蓝冷调 · 12px 圆角 · 平滑曲线多序列图表",
+      "tokens": {
+        "cardRadius": 12,
+        "blockRadius": 8,
+        "controlRadius": 8,
+        "badgeRadius": 999,
+        "borderWidth": 1,
+        "density": "normal",
+        "shadow": "subtle",
+        "tableStriped": true,
+        "monoEmphasis": false,
+        "chartBarRadius": 4,
+        "chartCurve": "monotone",
+        "chartAreaOpacity": 0.2,
+        "recommendStyle": "top_bar"
+      },
+      "light": {
+        "cardBg": "#F8FAFC",
+        "cardBorder": "#DCE4EE",
+        "subSurfaceBg": "#F1F5F9",
+        "subSurfaceBorder": "#E2E8F0",
+        "accent": "#0284C7",
+        "primaryBg": "#0F172A",
+        "primaryText": "#FFFFFF",
+        "mutedText": "#64748B",
+        "badgeBg": "#E0F2FE",
+        "badgeText": "#0369A1",
+        "tableHeaderBg": "#F1F5F9",
+        "tableStripeBg": "#E2E8F066",
+        "chartColors": ["#0284C7", "#0D9488", "#6366F1", "#F59E0B", "#EC4899"]
+      },
+      "dark": {
+        "cardBg": "#0F172A",
+        "cardBorder": "#1E293B",
+        "subSurfaceBg": "#162033",
+        "subSurfaceBorder": "#263449",
+        "accent": "#38BDF8",
+        "primaryBg": "#38BDF8",
+        "primaryText": "#082F49",
+        "mutedText": "#94A3B8",
+        "badgeBg": "#0C4A6E",
+        "badgeText": "#7DD3FC",
+        "tableHeaderBg": "#162033",
+        "tableStripeBg": "#1E293B80",
+        "chartColors": ["#38BDF8", "#2DD4BF", "#818CF8", "#FBBF24", "#F472B6"]
+      }
+    }
+  ]
+}
