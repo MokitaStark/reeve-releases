@@ -1,4 +1,8 @@
-<img src="assets/logo/reeve-logo.png" alt="Reeve" width="460" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/logo/reeve-logo-dark.png" />
+  <source media="(prefers-color-scheme: light)" srcset="assets/logo/reeve-logo.png" />
+  <img src="assets/logo/reeve-logo.png" alt="Reeve" width="440" />
+</picture>
 
 # Reeve · 原生多智能体工程与个人工作台
 
