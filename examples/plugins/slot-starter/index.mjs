@@ -206,6 +206,7 @@ export async function renderSlot(slotId, ctx = {}) {
                       field: 'draftIdea',
                       placeholder: '输入一个想法或待验证的插件能力…',
                       grow: 1,
+                      action: { type: 'dispatch', handler: 'add_idea' },
                     },
                     {
                       type: 'button',
@@ -253,7 +254,7 @@ export async function renderSlot(slotId, ctx = {}) {
                     language: escapeXml(snip.conversationId || 'message'),
                     content: snip.preview,
                   }))
-                : [{ type: 'empty', title: '暂无收藏', text: '点击任意助手回复底部的「收藏灵感」按钮即可收入此处。' }],
+                : [{ type: 'empty', title: '暂无收藏', subtitle: '点击任意助手回复底部的「收藏灵感」按钮即可收入此处。' }],
             },
           ],
         },
@@ -357,7 +358,7 @@ export async function renderSlot(slotId, ctx = {}) {
     default:
       return {
         state,
-        view: { type: 'empty', title: '未知插槽', text: `未定义插槽 ${slotId}` },
+        view: { type: 'empty', title: '未知插槽', subtitle: `未定义插槽 ${slotId}` },
       };
   }
 }
@@ -372,7 +373,8 @@ export async function onSlotAction(slotId, handler, payload = {}, ctx = {}) {
       return { ...rendered, state, toast: `脉冲计数已更新为 ${state.pulseCount}` };
     }
     case 'add_idea': {
-      const title = String(state.draftIdea || '').trim();
+      const rawDraft = payload?.field === 'draftIdea' ? payload.value : (payload?.draftIdea ?? state.draftIdea);
+      const title = String(rawDraft || '').trim();
       if (!title) {
         return { state, toast: '请先输入灵感内容' };
       }

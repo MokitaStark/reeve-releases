@@ -110,7 +110,11 @@
 - `select`：下拉选择（`field`、`label`、`value`、`options: [{ "label": "...", "value": "..." }]`、`action`）
 - `toggle`：布尔开关（`field`、`label`、`checked`、`action`）
 
-> **视觉适配准则**：文字与卡片背景请始终使用语义 `tone`（`default`、`neutral`、`muted`、`subtle`、`accent`、`success`、`warning`、`danger`），让桌面端自动适配浅色、深色与 Liquid Glass 材质，不要硬编码死色背景。
+> **视觉与布局黄金准则（对齐桌面端真实容器）**：
+> 1. **语义色适配**：文字与卡片请始终使用语义 `tone`（`default`、`neutral`、`muted`、`subtle`、`accent`、`success`、`warning`、`danger`），让桌面端自动适配浅色、深色与 Liquid Glass 材质，不要硬编码死色背景。
+> 2. **避免双层外边距**：桌面端宿主在 `right_panel`（自带 `42px` 标题头与 `12px` 滚动区内边距）和 `main`（自带标题栏与 `12px 24px` 页面边距）外层已提供标准留白，因此插件返回的根 `column` **无需再写外层 `padding: 12`**。
+> 3. **双列指标卡等宽对齐**：在水平 `row` 中并排放置多个 `stat` 节点时，**务必显式声明 `grow: 1`**，使各指标卡 1:1 等宽撑满容器。
+> 4. **首屏 `render(ctx)` 零阻塞**：宿主对单次 `render_slot` 限制 `3s` 超时。初始 `render` 应仅做本地文件或环境变量布尔自检（`<= 50ms`），通过面板内的按钮触发 `dispatch` 按需执行网络请求或 CLI 诊断。
 
 ---
 
@@ -122,10 +126,14 @@
 | `copy_text` | 桌面端本地 | 将 `text` 复制到系统剪贴板并弹出轻提示 |
 | `open_url` | 桌面端本地 | 在系统浏览器打开 `url`（严格白名单：仅允许 `http://` 与 `https://`） |
 | `open_slot` | 桌面端本地 | 按 `target`（目标 `slot.id`）跳转到本插件的 `main` 页面或展开 `right_panel` |
-| `call_tool` | Go 后端 → Worker | 调用本插件声明的 `tool`（传入 `payload` 及当前表单字段值），完成后自动刷新插槽 |
-| `dispatch` | Go 后端 → Worker | 仅 `kind: "worker"` 可用；调用 `slots[slotId].action(handler, payload, ctx)`，支持合并表单输入并返回新状态与客户端副作用 |
+| `call_tool` | Go 后端 → Worker | 调用本插件声明的 `tool`（传入 `payload` 及当前实例 `state`），完成后自动刷新插槽 |
+| `dispatch` | Go 后端 → Worker | 仅 `kind: "worker"` 可用；调用 `slots[slotId].action(handler, payload, ctx)`，支持读取表单状态并返回新状态与客户端副作用 |
 
-> **表单值自动收集**：当同一个插槽视图中包含设置了 `field` 属性的 `input`、`textarea`、`select` 或 `toggle` 时，用户点击 `dispatch` 或 `call_tool` 按钮会自动将当前表单值并入 `payload` 传给处理函数。
+> **真实表单取值契约（重要）**：
+> - 用户在设置了 `field` 属性的 `input`、`textarea`、`select` 或 `toggle` 中输入或切换时，桌面端会将最新值实时保存在插件状态 **`ctx.state[field]`** 中；
+> - 若在 `input` 节点上同时绑定了 `action: { type: 'dispatch', handler: '...' }`，用户按 **Enter 回车键** 提交时会额外传入 `payload = { field, value }`。
+> - 因此在 `action(handler, payload, ctx)` 中读取表单字段的标准写法为：
+>   `const val = payload?.field === 'draft' ? payload.value : (payload?.draft ?? ctx.state?.draft ?? '');`
 
 ---
 
@@ -153,13 +161,19 @@ export const slots = {
         view: {
           type: 'column',
           gap: 10,
-          padding: 12,
           children: [
             {
               type: 'row',
               gap: 8,
               children: [
-                { type: 'input', field: 'draft', placeholder: '记录一条待办灵感…', grow: 1 },
+                {
+                  type: 'input',
+                  field: 'draft',
+                  placeholder: '记录一条待办灵感（回车或点添加）…',
+                  value: String(ctx.state?.draft || ''),
+                  grow: 1,
+                  action: { type: 'dispatch', handler: 'add_item' },
+                },
                 {
                   type: 'button',
                   label: '添加',
@@ -184,7 +198,8 @@ export const slots = {
     async action(handler, payload = {}, ctx = {}) {
       const items = Array.isArray(ctx.state?.items) ? [...ctx.state.items] : [];
       if (handler === 'add_item') {
-        const draft = String(payload.draft || '').trim();
+        const rawDraft = payload?.field === 'draft' ? payload.value : (payload?.draft ?? ctx.state?.draft ?? '');
+        const draft = String(rawDraft).trim();
         if (!draft) {
           return { state: ctx.state, toast: '请先输入便签内容' };
         }

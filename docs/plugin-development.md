@@ -176,8 +176,8 @@ export const tools = {
 | `conversation.starter` | `conversation.hero`、`starter` | 新对话空白欢迎页底部的推荐向导卡片 |
 | `conversation.message.footer` | `conversation.chat.assistant-actions`、`message.footer` | 每条助手回复底栏附加动作按钮（自动携带消息 ID 与正文） |
 
-- **22 种原生 UI 节点**：支持 `column`、`row`、`card`、`box`、`scroll`、`collapsible`、`text`、`markdown`、`code`、`svg`（经过严格安全白名单清洗的包内 `.svg` 或内联矢量图）、`badge`、`stat`、`progress`、`list_item`、`empty`、`divider`、`spacer`、`button`、`input`、`textarea`、`select`、`toggle`。
-- **6 种确定性交互动作**：支持 `insert_text`（回填对话输入框）、`copy_text`、`open_url`（仅限 HTTPS/HTTP）、`open_slot`（跨槽位跳转）、`call_tool`（调用插件工具）与 `dispatch`（触发 `slots[slotId].action(handler, payload, ctx)` 更新持久化状态并热刷新界面）。
+- **22 种原生 UI 节点**：支持 `column`、`row`、`card`、`box`、`scroll`、`collapsible`、`text`、`markdown`、`code`、`svg`（经过严格安全白名单清洗的包内 `.svg` 或内联矢量图）、`badge`、`stat`（并排放置时建议设 `grow: 1` 等宽平铺）、`progress`、`list_item`、`empty`、`divider`、`spacer`、`button`、`input`、`textarea`、`select`、`toggle`。（注：`right_panel` 与 `main` 外壳已内置标准标题栏与 `12px` 边距，根 `column` 无需重复声明外层 `padding`。）
+- **6 种确定性交互动作**：支持 `insert_text`（回填对话输入框）、`copy_text`、`open_url`（仅限 HTTPS/HTTP）、`open_slot`（跨槽位跳转）、`call_tool`（调用插件工具）与 `dispatch`（触发 `slots[slotId].action(handler, payload, ctx)`，从 `ctx.state[field]` 读取表单输入并热刷新界面）。
 - 完整组件字典与动态代码示例请参阅 [`skills/reeve-plugin-dev/references/plugin-slots-ui.md`](../skills/reeve-plugin-dev/references/plugin-slots-ui.md) 及完整演示包 [`examples/plugins/slot-starter`](../examples/plugins/slot-starter/README.md)。
 
 ---

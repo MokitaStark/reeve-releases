@@ -98,7 +98,7 @@ $env:REEVE_INSTALL_DEPS="1"; irm https://github.com/MokitaStark/reeve-releases/r
 - **热敏票据风格高清 AI 账单（`/bill`）**：内置工具返回智能压缩引擎节省上下文 Token；支持一键生成单轮或整场对话的 **2x Retina 热敏纸小票海报**与每日用量报表，原生支持 `USD ($)` / `CNY (¥)` 汇率实时换算与 CSV 导出。
 
 ### 5. 全栈宿主机工程工具箱
-右侧与底部集成零切屏原生工程面板：**版本乐观锁代码编辑器**、**Git 多仓与沙箱管理**、**多标签交互式 PTY 终端**、**Chrome CDP 自动化浏览器（Browser Use）**、**跨 macOS / Windows / Linux 零 CGO 原生桌面无障碍控制（Computer Use + 画中画观察窗）**、**双向 MCP（Client + Server）**、**生命周期 Hooks** 以及 **22 款官方内置插件**（涵盖 Docker、Kubernetes、SQLite/PG/MySQL、Redis、S3、HTTP 调试、GitHub/GitLab、Vercel、Supabase、Cloudflare、Sentry、Linear、Notion、Slack、飞书、Stripe、CVE 依赖审计与 Unity / Unreal / Godot 引擎）。
+右侧与底部集成零切屏原生工程面板：**版本乐观锁代码编辑器**、**Git 多仓与沙箱管理**、**多标签交互式 PTY 终端**、**Chrome CDP 自动化浏览器（Browser Use）**、**跨 macOS / Windows / Linux 零 CGO 原生桌面无障碍控制（Computer Use + 画中画观察窗）**、**双向 MCP（Client + Server）**、**生命周期 Hooks** 以及 **22 款自带原生右侧诊断面板与矢量图标的官方内置插件**（涵盖 Docker、Kubernetes、SQLite/PG/MySQL、Redis、S3、HTTP 调试、GitHub/GitLab、Vercel、Supabase、Cloudflare、Sentry、Linear、Notion、Slack、飞书、Stripe、页面探针、CVE 依赖审计与 Unity / Unreal / Godot 引擎）。
 
 ---
 
