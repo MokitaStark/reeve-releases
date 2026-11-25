@@ -67,10 +67,25 @@ has_cmd() {
 }
 
 fetch_text() {
+	url="$1"
 	if has_cmd curl; then
-		curl -fsSL "$1"
+		case "$url" in
+		https://*)
+			curl -fsSL --proto '=https' --tlsv1.2 "$url"
+			;;
+		*)
+			curl -fsSL "$url"
+			;;
+		esac
 	elif has_cmd wget; then
-		wget -qO- "$1"
+		case "$url" in
+		https://*)
+			wget -qO- --https-only "$url"
+			;;
+		*)
+			wget -qO- "$url"
+			;;
+		esac
 	else
 		fail "未检测到 curl 或 wget，请先安装其中之一"
 	fi
@@ -80,9 +95,23 @@ fetch_file() {
 	url="$1"
 	dest="$2"
 	if has_cmd curl; then
-		curl -fL --progress-bar "$url" -o "$dest"
+		case "$url" in
+		https://*)
+			curl -fL --proto '=https' --tlsv1.2 --progress-bar "$url" -o "$dest"
+			;;
+		*)
+			curl -fL --progress-bar "$url" -o "$dest"
+			;;
+		esac
 	elif has_cmd wget; then
-		wget -q --show-progress -O "$dest" "$url" || wget -qO "$dest" "$url"
+		case "$url" in
+		https://*)
+			wget -q --https-only --show-progress -O "$dest" "$url" || wget -q --https-only -O "$dest" "$url"
+			;;
+		*)
+			wget -q --show-progress -O "$dest" "$url" || wget -qO "$dest" "$url"
+			;;
+		esac
 	else
 		fail "未检测到 curl 或 wget，请先安装其中之一"
 	fi
@@ -811,6 +840,13 @@ EOF
 }
 
 resolve_latest_manifest() {
+	case "$RELEASE_REPO" in
+	*/*) ;;
+	*) fail "RELEASE_REPO 格式非法: $RELEASE_REPO" ;;
+	esac
+	if ! printf '%s' "$RELEASE_REPO" | grep -Eq '^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+$'; then
+		fail "RELEASE_REPO 格式非法: $RELEASE_REPO"
+	fi
 	validate_base_url "$GITHUB_BASE"
 	manifest_url="${GITHUB_BASE%/}/${RELEASE_REPO}/releases/latest/download/update-${TARGET}.json"
 	info "2/3 获取最新发行版清单 ($manifest_url)"
@@ -867,7 +903,9 @@ install_macos() {
 	mkdir -p "$dest_root"
 
 	work_dir="$(mktemp -d)"
-	trap 'rm -rf "$work_dir"' EXIT INT TERM
+	staging_app="${dest_root}/.${BUNDLE}.staging.$$"
+	backup_app="${dest_root}/.${BUNDLE}.backup.$$"
+	trap 'rm -rf "$work_dir" "$staging_app"' EXIT INT TERM
 	archive_file="$work_dir/${SLUG}-${VERSION}-${TARGET}.tar.gz"
 
 	info "3/3 下载并安装 $APP_NAME v${VERSION} -> ${dest_root}/${BUNDLE}"
@@ -894,8 +932,19 @@ install_macos() {
 	xattr -dr com.apple.quarantine "$work_dir/$BUNDLE" 2>/dev/null || true
 
 	target_app="${dest_root}/${BUNDLE}"
-	rm -rf "$target_app"
-	mv "$work_dir/$BUNDLE" "$target_app"
+	rm -rf "$staging_app" "$backup_app"
+	mv "$work_dir/$BUNDLE" "$staging_app"
+	if [ -d "$target_app" ]; then
+		mv "$target_app" "$backup_app"
+	fi
+	if mv "$staging_app" "$target_app"; then
+		rm -rf "$backup_app"
+	else
+		if [ -d "$backup_app" ]; then
+			mv "$backup_app" "$target_app" || true
+		fi
+		fail "写入安装目录失败: $target_app"
+	fi
 	ok "已安装应用至: $target_app"
 
 	# 注册命令行快捷启动入口 ~/.local/bin/reeve
@@ -924,6 +973,7 @@ install_linux() {
 
 	work_dir="$(mktemp -d)"
 	staging_dir="${app_dir}.staging.$$"
+	backup_dir="${app_dir}.backup.$$"
 	trap 'rm -rf "$work_dir" "$staging_dir"' EXIT INT TERM
 	archive_file="$work_dir/${SLUG}-${VERSION}-${TARGET}.tar.gz"
 
@@ -950,8 +1000,18 @@ install_linux() {
 	fi
 
 	mkdir -p "$(dirname "$app_dir")" "$bin_dir" "$data_home/applications"
-	rm -rf "$app_dir"
-	mv "$staging_dir" "$app_dir"
+	rm -rf "$backup_dir"
+	if [ -e "$app_dir" ]; then
+		mv "$app_dir" "$backup_dir"
+	fi
+	if mv "$staging_dir" "$app_dir"; then
+		rm -rf "$backup_dir"
+	else
+		if [ -e "$backup_dir" ]; then
+			mv "$backup_dir" "$app_dir" || true
+		fi
+		fail "写入安装目录失败: $app_dir"
+	fi
 	ln -sf "$app_dir/$SLUG" "$bin_dir/$SLUG"
 	ok "已安装应用目录: $app_dir"
 	ok "已创建命令行启动入口: $bin_dir/$SLUG"

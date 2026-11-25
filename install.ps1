@@ -115,9 +115,37 @@ if ($CheckOnly) {
     return
 }
 
+function Assert-ValidReleaseRepo([string]$Repo) {
+    if ($Repo -notmatch '^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+$') {
+        throw "RELEASE_REPO 格式非法: $Repo"
+    }
+}
+
 function Assert-HttpsReleaseBase([string]$BaseUrl) {
     if ($BaseUrl -notmatch '^https://' -and $BaseUrl -notmatch '^http://(127\.0\.0\.1|localhost)(:\d+)?$') {
         throw "拒绝非 HTTPS 安装源地址: $BaseUrl"
+    }
+}
+
+function Assert-HttpsResponseScheme($Resp, [string]$RequestUrl) {
+    if ($RequestUrl -notmatch '^https://') {
+        return
+    }
+    $FinalUri = $null
+    try {
+        if ($Resp -and $Resp.BaseResponse -and $Resp.BaseResponse.ResponseUri) {
+            $FinalUri = $Resp.BaseResponse.ResponseUri
+        }
+    } catch {}
+    if (-not $FinalUri) {
+        try {
+            if ($Resp -and $Resp.BaseResponse -and $Resp.BaseResponse.RequestMessage -and $Resp.BaseResponse.RequestMessage.RequestUri) {
+                $FinalUri = $Resp.BaseResponse.RequestMessage.RequestUri
+            }
+        } catch {}
+    }
+    if ($FinalUri -and $FinalUri.Scheme -ne 'https') {
+        throw "拒绝非 HTTPS 下载重定向: $FinalUri"
     }
 }
 
@@ -245,10 +273,12 @@ public static class ReeveEd25519Verifier {
 }
 
 # 2. 获取最新发行版清单（通过 GitHub Releases Web 直连，避免 REST API 403 限流）
+Assert-ValidReleaseRepo $ReleaseRepo
 Assert-HttpsReleaseBase $GitHubBase
 $ManifestUrl = "$GitHubBase/$ReleaseRepo/releases/latest/download/update-$Target.json"
 Write-Step "2/3 获取最新发行版清单 ($ManifestUrl)"
 $ManifestResp = Invoke-WebRequest -Uri $ManifestUrl -UseBasicParsing
+Assert-HttpsResponseScheme $ManifestResp $ManifestUrl
 # GitHub Releases 常以 application/octet-stream 下发 .json 资产，PowerShell 5.1 下 Content 为 byte[]
 $ManifestText = if ($ManifestResp.Content -is [byte[]]) {
     [System.Text.Encoding]::UTF8.GetString($ManifestResp.Content)
@@ -276,8 +306,10 @@ $SumsSigPath = Join-Path $TempDir "SHA256SUMS.sig"
 
 try {
     Write-Step "3/3 正在下载并验签 $AppName 安装程序 ($InstallerName)..."
-    $null = Invoke-WebRequest -Uri $SumsUrl -OutFile $SumsPath -UseBasicParsing
-    $null = Invoke-WebRequest -Uri $SumsSigUrl -OutFile $SumsSigPath -UseBasicParsing
+    $SumsResp = Invoke-WebRequest -Uri $SumsUrl -OutFile $SumsPath -UseBasicParsing -PassThru
+    Assert-HttpsResponseScheme $SumsResp $SumsUrl
+    $SumsSigResp = Invoke-WebRequest -Uri $SumsSigUrl -OutFile $SumsSigPath -UseBasicParsing -PassThru
+    Assert-HttpsResponseScheme $SumsSigResp $SumsSigUrl
     $SumsBytes = [System.IO.File]::ReadAllBytes($SumsPath)
     $SumsSigText = [System.IO.File]::ReadAllText($SumsSigPath, [System.Text.Encoding]::UTF8).Trim()
     $Sha256 = [System.Security.Cryptography.SHA256]::Create()
@@ -304,6 +336,7 @@ try {
     }
 
     $Resp = Invoke-WebRequest -Uri $InstallerUrl -OutFile $InstallerPath -UseBasicParsing -PassThru
+    Assert-HttpsResponseScheme $Resp $InstallerUrl
     $FileInfo = Get-Item $InstallerPath
     if ($FileInfo.Length -lt 1048576) {
         throw "下载的安装包大小异常 ($($FileInfo.Length) 字节)"
