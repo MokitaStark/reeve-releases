@@ -860,8 +860,11 @@ resolve_latest_manifest() {
 	fi
 	validate_version_string "$VERSION"
 	expected_archive_url="${GITHUB_BASE%/}/${RELEASE_REPO}/releases/download/desktop-v${VERSION}/${SLUG}-${VERSION}-${TARGET}.tar.gz"
+	legacy_archive_url="${GITHUB_BASE%/}/chengyunyi/reeve-releases/releases/download/desktop-v${VERSION}/${SLUG}-${VERSION}-${TARGET}.tar.gz"
 	if [ "$ARCHIVE_URL" != "$expected_archive_url" ]; then
-		fail "更新清单中的安装包地址异常: ${ARCHIVE_URL}（期望 ${expected_archive_url}）"
+		if [ "$RELEASE_REPO" != "MokitaStark/reeve-releases" ] || [ "$ARCHIVE_URL" != "$legacy_archive_url" ]; then
+			fail "更新清单中的安装包地址异常: ${ARCHIVE_URL}（期望 ${expected_archive_url}）"
+		fi
 	fi
 	ok "最新版本: v${VERSION}"
 }
