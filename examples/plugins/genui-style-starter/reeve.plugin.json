@@ -1,4 +1,5 @@
 {
+  "manifestVersion": 1,
   "id": "nordic-frost-genui-style",
   "name": "北极冰川（示例 GenUI 风格）",
   "version": "1.0.0",
@@ -38,7 +39,13 @@
         "badgeText": "#0369A1",
         "tableHeaderBg": "#F1F5F9",
         "tableStripeBg": "#E2E8F066",
-        "chartColors": ["#0284C7", "#0D9488", "#6366F1", "#F59E0B", "#EC4899"]
+        "chartColors": [
+          "#0284C7",
+          "#0D9488",
+          "#6366F1",
+          "#F59E0B",
+          "#EC4899"
+        ]
       },
       "dark": {
         "cardBg": "#0F172A",
@@ -53,7 +60,13 @@
         "badgeText": "#7DD3FC",
         "tableHeaderBg": "#162033",
         "tableStripeBg": "#1E293B80",
-        "chartColors": ["#38BDF8", "#2DD4BF", "#818CF8", "#FBBF24", "#F472B6"]
+        "chartColors": [
+          "#38BDF8",
+          "#2DD4BF",
+          "#818CF8",
+          "#FBBF24",
+          "#F472B6"
+        ]
       }
     }
   ]

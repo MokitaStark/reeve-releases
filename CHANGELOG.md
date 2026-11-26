@@ -1,8 +1,50 @@
 # 更新记录
 
-## Unreleased
+## 0.1.015
 
-- 持续拓展内置插件市场、多智能体协同模板与跨平台桌面体验细节。
+### Agent Harness 生产级补强、模型编排器、团队多话题面板、ACP 用量配额、Grill Me、A2UI 与屏幕快照
+- **Agent Harness 生产级十项补强与全栈贯通**：
+  - **OS 级沙箱执行 (`internal/sandbox`)**：新增 `off` / `workspace_write` / `read_only` 三档策略与 `allowNetwork` 开关（macOS 动态 Seatbelt、Linux `bwrap` + 零依赖 `Landlock` 系统调用、Windows 受控降级），贯通 `run_command`、`code_exec`、`/api/system/sandbox-capabilities` 及桌面通用设置。
+  - **异步后台命令持久化与检查点闭环**：支持受控后台命令状态持久化、`interrupted` 重启恢复、`/api/projects/{projectId}/commands` REST 接口、后台命令结束后自动捕获 Git 检查点支持回滚，并在桌面终端抽屉接入受控后台命令管理面板。
+  - **冷启动 Token 减负与按词激活**：精简核心工具集冷启动体积并保持 KV Cache 前缀稳定，为 `activate_toolset` 新增按 `query` 关键词检索延迟工具组能力。
+  - **LSP 生产级打磨与跨语言结构化 AST 回退**：补齐 LSP UTF-8/UTF-16 双向列映射、`didClose` 32 文档 LRU 淘汰、`workspace/configuration` 响应、`documentChanges` 文件资源重命名/创建/删除及 `clangd` 联调；`ast_grep` 新增 `$VAR` / `$$$ARGS` 内置跨语言结构化回退引擎。
+  - **子智能体异步续接、完整 Hooks 与对话定时自唤醒**：新增 `subagent_status` / `subagent_send` / `subagent_cancel` 异步管理与保留历史续接追问；Hooks 扩充至 11 事件（新增 `PreCompact`、`Notification`，支持 `PreToolUse` `updatedInput` 深度合并与 `PostToolUse` `updatedOutput`）；新增 `schedule_wakeup` / `list_wakeups` / `cancel_wakeup` 对话自唤醒。
+  - **对外 MCP 扩展、W3C 轻量遥测与内置评测 CLI (`reeve eval`)**：对外 MCP Server 增扩至 18 个工具（含工作区检索/补丁与原生 LSP）；新增进程内 W3C Span 追踪与 OTLP/HTTP 导出（`GET /api/ops/traces`）；新增 `reeve eval` 基准评测 CLI（7 组确定性 Harness 闭环用例与基线回归对比）；同步适配桌面与移动端工具标题及状态呈现。
+- **模型编排器（Model Orchestrator）与设置页管理**：新增「规划（plan）→ 执行（execute）→ 测试（test）」多阶段模型编排器配置与 `set_orchestrator_phase` 阶段切换工具，支持简单问答直答与复杂任务自动多模型协同流转，并在桌面设置页提供可视化编排器新建/编辑/删除管理（已与 `ACP` 运行时互斥校验）。
+- **团队多话题直聊面板与 Swarm / Teamwork 协同视图**：新增项目团队成员多话题直聊线程（`team-threads` HTTP/Engine 闭环）、实时协作拓扑可视化、共享黑板分类联动、成员管理两步确认清理与右侧 `/team` / `/team-panel`（`⌘7`）快捷面板。
+- **ACP 用量统计与实时配额窗口监控**：新增 `/api/metrics/acp-usage` 与 `/api/metrics/acp-limits[/refresh]` 接口，支持本地 Codex / Claude Code 等 ACP CLI 增量日志扫描、速率/配额窗口探测与桌面端可视化展示。
+- **Grill Me 深度访谈模式**：新增 `/grill-me` 只读深度访谈命令与双端交互支持，在实施前通过结构化追问对齐需求与架构设计决策。
+- **Google A2UI 官方内置插件（官方生态扩充至 38 项）**：新增 `a2ui` 官方内置插件并同步内嵌，支持 v0.8 / v0.9 / v1.0 JSONL 流解析、RFC 6901 数据绑定、插件槽实时画布及 `render_ui` 卡片编译与 `userAction` 事件闭环。
+- **输入框屏幕快照（`/screenshot` / `⌘⇧S`）**：支持在工作区与 Aide 输入台直接发起原生区域截屏、自动避让主窗全屏快照及指定应用窗口离屏快照（`POST /api/computer/snapshot`）。
+- **执行上限默认值调整与输入台体验优化**：将全局默认 `maxSteps` 调整为 `0`（默认不设步数上限），同步优化桌面端输入台 HUD、Composer 模型/状态联动与流式渲染性能。
+- **全局 Code Review 安全、并发与稳定性加固**：
+  - 加固 A2UI 路径/符号链接隔离、流式深度与稀疏数组上限、SSRF 元数据网段拦截；
+  - 加固 Linux `bwrap`/`Landlock`（ABI 版本与非常规文件规则探测、真实运行时探针）与 macOS Seatbelt 入站网络阻断；
+  - 修复 `lsp_rename` 重叠/收缩边界偏移与环境变量净化、`ast_grep` 步数预算与回溯、`glob` 花括号扩展上限、多文件 `apply_patch` 两阶段提交及 `background` 进程并发计数竞态；
+  - 修复推理引擎退出时团队直聊取消、ACP 用量扫描 `Offset`/缓存与数据库状态一致性、自唤醒归档项目校验与 Prompt Cache 1h TTL 核算；
+  - 修复桌面端设置并发刷新/失效状态重置、工作区角色清理误触二次确认，以及移动端自动化任务默认值覆盖与 `grill-me` 只读参数透传；
+  - 统一 `bump-version.py` 全量版本号同步范围并通过全链路 `pre-push-check.sh` 镜像门禁验证。
+
+## 0.1.014
+
+### 侧栏紧凑底栏、悬浮更新卡片、独立用量弹窗与全栈工程治理收口
+- **侧栏底栏紧凑重构与悬浮更新卡片**：左侧高频快捷入口紧凑左对齐排列，最右侧仅在发现新版本、下载中或待重启时展示圆形下载图标与 12 点钟方向顺时针环形进度条；无需进入设置页即可展开毛玻璃悬浮卡片查看 Markdown 更新说明、实时下载进度（兼容后台自动下载与失败复位）及外部发布页链接。
+- **独立「用量统计」弹窗**：将平台 Token 消耗、每日账单、Prompt Cache 命中率与工具返回压缩节省看板从设置页拆出为独立居中毛玻璃弹窗，打通侧栏底栏、扩展菜单、`/usage` 命令、菜单栏入口及「前往配置单价」跨弹窗跳转。
+- **ACP 流式思考增强与全栈工程治理收口**：增强 ACP 智能体流式思考与步骤增量呈现；抽离 `packages/protocol` 共享协议包并固化 `protocolVersion=1` 与插件 `manifestVersion=1` 协商校验；完成存储层、桌面端 `workbench` 与移动端 `reeveStore` 模块化拆分，以及跨平台并行预检、工作树校验戳复用与全量 `-race` 并发测试门禁。
+
+## 0.1.013
+
+### ACP 认证与客户端完善、输入台 HUD 与任务计划条精简升级
+- **ACP 认证与智能体设置增强**：完善后端 `acp_auth` / `acp_client` 认证流程与 HTTP 接口，同步优化桌面端 `Agent CLI` 设置页与模型选择器集成体验。
+- **输入台 HUD 与任务计划条（`chat_plan`）重构**：精简 `composer_hud` 悬浮提示与 `chat_plan` 进度条视觉层次，优化菜单栏图标与主题细节。
+
+## 0.1.012
+
+### ACP 智能体协议池、多模态媒体生成、输入台 HUD 与移动端原生重塑
+- **ACP (Agent Client Protocol) 会话池与统一调度**：后端新增 ACP 客户端、注册表、认证管理与会话池协调器（`acp_client` / `acp_coordinator` / `acp_session_pool`），桌面端同步支持 ACP 图标缓存与模型/CLI 统一选择。
+- **多模态媒体生成能力贯通**：后端新增 `media_generation` 领域模型、服务、工具集与 HTTP 接口，桌面端新增媒体生成设置面板与对话内媒体生成卡片展示。
+- **桌面端输入台 HUD 与交互精简**：新增输入台轻量 HUD 提示（`composer_hud`），优化对话流底部、消息底栏纯图标与更多菜单收拢体验。
+- **移动端原生主页与液态玻璃动效重塑**：重构移动端 `AideHomeView`、`WorkHomeView`、`WorkspaceHubView`、悬浮底部导航栏（`FloatingTabDock`）、液态玻璃表面（`GlassSurface`）及加载动效（`LoadingEffects`）。
 
 ## 0.1.011
 

@@ -2,7 +2,16 @@ import { describe, expect, test } from 'bun:test';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
-const ALLOWED_TOP_KEYS = new Set(['id', 'name', 'version', 'kind', 'description', 'author', 'themes']);
+const ALLOWED_TOP_KEYS = new Set([
+  'manifestVersion',
+  'id',
+  'name',
+  'version',
+  'kind',
+  'description',
+  'author',
+  'themes',
+]);
 const ALLOWED_TOKENS = new Set([
   'background',
   'gradientFrom',

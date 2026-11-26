@@ -12,7 +12,7 @@
 
 > **仓库说明**：本仓库（[`MokitaStark/reeve-releases`](https://github.com/MokitaStark/reeve-releases)）是 Reeve 的**官方公开发布与插件生态中心**，提供经 Ed25519 数字签名的跨平台安装包、一键环境检测安装脚本、自动更新公钥，以及面向开发者的**官方插件编写 AI 技能包（Skills）、开发文档与示例模板**。
 
-- **当前最新版本**：**`v0.1.011`**（[查看更新日志](CHANGELOG.md) · [前往 Releases 下载页](https://github.com/MokitaStark/reeve-releases/releases/latest) · [插件编写指南与 Skills](#插件编写指南与-ai-技能包skills)）
+- **当前最新版本**：**`v0.1.015`**（[查看更新日志](CHANGELOG.md) · [前往 Releases 下载页](https://github.com/MokitaStark/reeve-releases/releases/latest) · [插件编写指南与 Skills](#插件编写指南与-ai-技能包skills)）
 
 ---
 
@@ -67,12 +67,12 @@ $env:REEVE_INSTALL_DEPS="1"; irm https://github.com/MokitaStark/reeve-releases/r
 
 您也可以前往 [**Releases 下载页**](https://github.com/MokitaStark/reeve-releases/releases/latest) 直接下载对应平台的安装包：
 
-| 平台与架构 | 官方安装包直链（`v0.1.011`） | 安装说明 |
+| 平台与架构 | 官方安装包直链（`v0.1.015`） | 安装说明 |
 | --- | --- | --- |
-| **macOS**（Apple Silicon `arm64`，macOS 12+） | [**`reeve-0.1.011-arm64.dmg`**](https://github.com/MokitaStark/reeve-releases/releases/download/desktop-v0.1.011/reeve-0.1.011-arm64.dmg) | 打开 `.dmg` 将 `Reeve.app` 拖入「应用程序」即可运行 |
-| **Windows**（64 位 `x64`） | [**`reeve-setup-0.1.011-amd64.exe`**](https://github.com/MokitaStark/reeve-releases/releases/download/desktop-v0.1.011/reeve-setup-0.1.011-amd64.exe) | 双击运行安装向导，自动创建桌面与开始菜单快捷方式 |
-| **Windows**（骁龙 / Surface `ARM64`） | [**`reeve-setup-0.1.011-arm64.exe`**](https://github.com/MokitaStark/reeve-releases/releases/download/desktop-v0.1.011/reeve-setup-0.1.011-arm64.exe) | 原生 ARM64 安装程序，双击安装即用 |
-| **Linux**（64 位 `x86_64`） | [**`reeve-0.1.011-linux-amd64.tar.gz`**](https://github.com/MokitaStark/reeve-releases/releases/download/desktop-v0.1.011/reeve-0.1.011-linux-amd64.tar.gz) | 配合上方 `install.sh` 自动安装至 `~/.local/reeve.app` 并注册桌面菜单 |
+| **macOS**（Apple Silicon `arm64`，macOS 12+） | [**`reeve-0.1.015-arm64.dmg`**](https://github.com/MokitaStark/reeve-releases/releases/download/desktop-v0.1.015/reeve-0.1.015-arm64.dmg) | 打开 `.dmg` 将 `Reeve.app` 拖入「应用程序」即可运行 |
+| **Windows**（64 位 `x64`） | [**`reeve-setup-0.1.015-amd64.exe`**](https://github.com/MokitaStark/reeve-releases/releases/download/desktop-v0.1.015/reeve-setup-0.1.015-amd64.exe) | 双击运行安装向导，自动创建桌面与开始菜单快捷方式 |
+| **Windows**（骁龙 / Surface `ARM64`） | [**`reeve-setup-0.1.015-arm64.exe`**](https://github.com/MokitaStark/reeve-releases/releases/download/desktop-v0.1.015/reeve-setup-0.1.015-arm64.exe) | 原生 ARM64 安装程序，双击安装即用 |
+| **Linux**（64 位 `x86_64`） | [**`reeve-0.1.015-linux-amd64.tar.gz`**](https://github.com/MokitaStark/reeve-releases/releases/download/desktop-v0.1.015/reeve-0.1.015-linux-amd64.tar.gz) | 配合上方 `install.sh` 自动安装至 `~/.local/reeve.app` 并注册桌面菜单 |
 
 ---
 

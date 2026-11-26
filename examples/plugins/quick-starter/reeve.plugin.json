@@ -1,4 +1,5 @@
 {
+  "manifestVersion": 1,
   "id": "quick-starter",
   "name": "插件开发入门示例",
   "version": "1.0.0",
@@ -41,7 +42,10 @@
             "description": "笔记正文（Markdown 文本）。"
           }
         },
-        "required": ["title", "content"],
+        "required": [
+          "title",
+          "content"
+        ],
         "additionalProperties": false
       }
     }
