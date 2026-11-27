@@ -1,5 +1,20 @@
 # 更新记录
 
+## 0.1.018
+
+### 全页面设计语言一致性精修、全局字体缩放贯通与切换流畅度优化
+- **全页面逐项设计语言与弹窗体系统一**：桌面端外壳、对话流、设置面板、功能页、面板及 GenUI 完成圆角、边框、层级与空态/交互细节一致化；移动端统一 `ModalSheet` / `DialogModal` 遮罩点击关闭与 Android `height` 键盘避让，全组件开关统一收口至 `AppSwitch`。
+- **移动端全局字体与字号缩放全贯通**：`tokens.ts` 增加主题缓存与 `themeFontStyle` / `scaledFontSize` / `scaledLineHeight` 缩放辅助函数，清空 18 个核心视图、原语及半屏 Sheet（含 `SettingsSheet`、`KnowledgeSheet`、`LocalProvidersSheet`、`RemoteControlSheet` 等）中的硬编码字体，接入全局字体风格与字号缩放，并统一补齐 `continuousCurve` 与卡片边框。
+- **双端交互流畅度与渲染性能优化**：桌面端新增流式渲染缓存（`chat_stream_cache.go`）、菜单栏主题缓存（`menubar_theme_cache.go`）、命令面板异步加载（`palette_loader.go`）、设置局部刷新（`settings_refresh.go`）与工作台视图缓存（`workbench_views_cache.go`），消除选项/Tab 切换与弹窗打开卡顿；移动端落地根 Tab 懒挂载保活、18 个弹窗/Sheet 按需挂载、32ms SSE delta 批处理节流、草稿输入防抖与 `React.memo` 隔离渲染，并补齐双端第 1~6 站回归测试。
+
+## 0.1.017
+
+### 全端设计语言与弹窗体系统一、可配置字体排版、空对话首屏重构与 ACP 用量融合
+- **全端设计语言与弹窗体系统一**：桌面端新增 `design_primitives.go` 统一毛玻璃弹窗（48px 标题栏 / `rXl` 圆角 / `tok.Hairline`）、浮层、危险按钮、下拉选择框、全屏页眉与右对齐原生开关行原语，系统性改造 22 个设置标签页、功能页、面板及 GenUI 交互状态；移动端默认皮肤切换对齐 `Apple 蓝`，新增 `ui_modals.tsx` 并将全部 10 个半屏 Sheet（`ModalSheet`）、居中确认/表单弹窗（`DialogModal`）、分段选择（`SegmentedControl`）、原生开关（`AppSwitch`）与大图预览灯箱（`ImageLightboxModal`）收敛至统一安全区与高对比度规范。
+- **双端可配置字体与字号缩放**：桌面端新增 `font_preferences.go`，支持界面字体、等宽/代码字体与 4 档字号缩放（紧凑 / 标准 / 舒适 / 大号）配置持久化，并在「通用 -> 字体与排版」卡片提供实时切换与 Markdown 渲染联动；移动端接入全局 `ThemeFontSet`、字体风格/字号缩放 `AsyncStorage` 持久化及外观设置页实时预览卡片。
+- **空对话首屏与 Aide IM 对话流重塑**：桌面端重构空对话欢迎舞台（液态玻璃品牌徽标 Hero 与径向微光晕、Aide 外环头像与头衔徽标、上下文归属/类型紧凑控制条、对齐 760px 中轴的 3 列/2×2 引导卡片网格与底端微键帽快捷提示）并新增独立 `aide_im_stream` IM 消息流；移动端 Work 与 Aide（1v1 及群组）空对话同步升级品牌/头像外环与高质感快捷引导卡片。
+- **菜单栏与用量统计融合 ACP 今日用量**：后端 `status_bar.go` 自动合并 ACP 今日 Token、运行轮次与缓存命中率，桌面端全部用量视图同步展示 ACP 指标概览。
+
 ## 0.1.016
 
 ### 柔光精灵 Agent 头像风格与双端角色自由配色
